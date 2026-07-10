@@ -1,11 +1,13 @@
 package com.example.incident.service;
 
+import com.example.incident.dto.IncidentDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import com.example.incident.entities.Incident;
 import com.example.incident.repository.IncidentRepository;
@@ -15,14 +17,38 @@ import com.example.incident.repository.IncidentRepository;
 @Slf4j
 public class IncidentService {
     private final IncidentRepository incidentRepository;
+    private final KafkaTemplate<Long, IncidentDto> sender;
 
-    public IncidentService(@Autowired IncidentRepository incidentRepository) {
+    public IncidentService(@Autowired IncidentRepository incidentRepository, @Autowired KafkaTemplate<Long, IncidentDto> sender) {
         this.incidentRepository = incidentRepository;
+        this.sender = sender;
     }
 
     public void save(Incident incident) {
         try {
             incidentRepository.save(incident);
+
+            IncidentDto incidentDto = IncidentDto.builder()
+                    .withId(incident.getId())
+                    .withName(incident.getName())
+                    .withDescription(incident.getDescription())
+                    .withDateCreate(incident.getDateCreate())
+                    .withDateClosed(incident.getDateClosed())
+                    .withAnalystId(incident.getAnalystId())
+                    .withInitiatorId(incident.getInitiatorId())
+                    .withStatus(incident.getStatus())
+                    .withPriority(incident.getPriority())
+                    .withResponsibleService(incident.getResponsibleService())
+                    .build();
+
+            sender.send("order-placed", incidentDto.getId(), incidentDto)
+                    .whenComplete((result, ex) -> {
+                        if (ex != null) {
+                            log.error("Ошибка отправки");
+                        } else {
+                            log.info("Успешно отправлено в партицию {}", result.getRecordMetadata().partition());
+                        }
+                    });
         } catch (Exception e) {
             log.error("Ошибка сохранения данных об инциденте: {}", e.getMessage());
             throw new RuntimeException(e);
