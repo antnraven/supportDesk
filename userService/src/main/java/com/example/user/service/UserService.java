@@ -23,7 +23,7 @@ public class UserService {
         try {
             userRepository.save(user);
         } catch (Exception e) {
-            log.error("Ошибка сохранения данных об инциденте: {}", e.getMessage());
+            log.error("Ошибка сохранения данных о пользователе: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -33,14 +33,14 @@ public class UserService {
             Pageable pageable = PageRequest.of(0, 10, Sort.by("userFullname"));
             return userRepository.findAll(pageable);
         } catch (Exception e) {
-            log.error("Ошибка получения данных обо всех инцидентах: {}", e.getMessage());
+            log.error("Ошибка получения данных обо всех пользователях: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
     public User findById(Long id) {
         try {
-            return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Инцидент " + id + " не найден"));
+            return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Пользователь " + id + " не найден"));
         } catch (Exception e) {
             log.error("Ошибка получения данных: {}", e.getMessage());
             throw new RuntimeException(e);
@@ -52,10 +52,10 @@ public class UserService {
             if (userRepository.existsById(user.getId())) {
                 userRepository.save(user);
             } else {
-                throw new RuntimeException("Инцидент " + user.getId() + " не найден.");
+                throw new RuntimeException("Пользователь " + user.getId() + " не найден.");
             }
         } catch (Exception e) {
-            log.error("Ошибка обновления данных об инциденте: {}", e.getMessage());
+            log.error("Ошибка обновления данных о пользователе: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
