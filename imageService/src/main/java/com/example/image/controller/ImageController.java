@@ -45,7 +45,7 @@ public class ImageController {
 
 
     @PatchMapping
-    public ResponseEntity<?> updateIncident(@RequestBody Image image {
+    public ResponseEntity<?> updateIncident(@RequestBody Image image) {
         try {
             imageService.updateIncident(image);
             return ResponseEntity.ok("Успешное обновление инцидента");
@@ -53,6 +53,4 @@ public class ImageController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-    w
 }
