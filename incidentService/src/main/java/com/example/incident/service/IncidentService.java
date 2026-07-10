@@ -41,7 +41,7 @@ public class IncidentService {
                     .withResponsibleService(incident.getResponsibleService())
                     .build();
 
-            sender.send("order-placed", incidentDto.getId(), incidentDto)
+            sender.send("incident-queue", incidentDto.getId(), incidentDto)
                     .whenComplete((result, ex) -> {
                         if (ex != null) {
                             log.error("Ошибка отправки");
