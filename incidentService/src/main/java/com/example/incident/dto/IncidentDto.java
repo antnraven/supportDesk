@@ -6,11 +6,13 @@ import com.example.incident.enums.ResponsibleService;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.OffsetDateTime;
 
 @Builder(setterPrefix = "with", access = AccessLevel.PUBLIC)
 @Getter
+@ToString
 public class IncidentDto {
     private final long id;
     private final String name;
