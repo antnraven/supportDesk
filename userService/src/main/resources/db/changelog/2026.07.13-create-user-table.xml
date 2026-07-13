@@ -7,31 +7,32 @@
 
 
     <changeSet id="1" author="MilovAV">
-        <createTable tableName="images">
+        <createTable tableName="users">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="incidentId" type="bigint">
+            <column name="role" type="varchar(150)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="url" type="varchar(255)">
+            <column name="name" type="varchar(150)">
                 <constraints unique="true" nullable="false"/>
             </column>
-            <column name="fileName" type="varchar(150)">
+            <column name="userFullname" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="size" type="bigint">
+            <column name="userLogin" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phoneNumber" type="VARCHAR(15)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="mediaType" type="varchar(150)">
-                <constraints nullable="false"/>
+            <column name="email" type="varchar(150)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="workplace" type="varchar(150)">
+                <constraints primaryKey="true" nullable="false"/>
             </column>
         </createTable>
-
-        <!-- Индексы создаются отдельным тегом внутри того же changeSet -->
-        <createIndex indexName="idx_images_incidentId" tableName="images">
-            <column name="incidentId"/>
-        </createIndex>
     </changeSet>
 
 </databaseChangeLog>
