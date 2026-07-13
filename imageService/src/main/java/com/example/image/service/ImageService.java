@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.example.image.utils.FileUtils.isForbiddenExtension;
 
@@ -121,6 +122,14 @@ public class ImageService {
 
             objectStorageClient.deleteFile(img.getFileName());
             imageRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Image> findAllByInitiatorId(Long initiatorId) {
+        try {
+            return imageRepository.findByInitiatorId(initiatorId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -43,6 +43,14 @@ public class ImageController {
         }
     }
 
+    @GetMapping("/initiatorId{initiatorId}")
+    public ResponseEntity<?> findByInitiatorId(@PathVariable Long initiatorId) {
+        try {
+            return ResponseEntity.ok(imageService.findAllByInitiatorId(initiatorId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @PatchMapping
     public ResponseEntity<?> updateIncident(@RequestParam Long id, @RequestBody Image image) {
