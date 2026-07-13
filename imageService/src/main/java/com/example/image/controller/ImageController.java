@@ -45,10 +45,20 @@ public class ImageController {
 
 
     @PatchMapping
-    public ResponseEntity<?> updateIncident(@RequestBody Image image) {
+    public ResponseEntity<?> updateIncident(@RequestParam Long id, @RequestBody Image image) {
         try {
-            imageService.updateIncident(image);
+            imageService.updateImage(id, image);
             return ResponseEntity.ok("Успешное обновление инцидента");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/id{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            imageService.delele(id);
+            return ResponseEntity.ok("Успешное удаление изображения " + id);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

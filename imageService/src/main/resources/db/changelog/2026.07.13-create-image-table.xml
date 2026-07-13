@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <changeSet id="1" author="MilovAV">
+        <createTable tableName="images">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="incidentId" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="url" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="fileName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="mediaType" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Индексы создаются отдельным тегом внутри того же changeSet -->
+        <createIndex indexName="idx_images_incidentId" tableName="images">
+            <column name="incidentId"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
