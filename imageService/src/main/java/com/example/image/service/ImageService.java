@@ -73,7 +73,6 @@ public class ImageService {
                 log.error("Ошибка обработки изображения: {}", e.getMessage());
                 throw new RuntimeException(e);
             }
-
         }
         return "";
     }
