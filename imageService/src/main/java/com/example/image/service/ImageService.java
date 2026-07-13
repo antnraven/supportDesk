@@ -19,6 +19,7 @@ import org.springframework.web.client.RestClient;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Arrays;
 
 import static com.example.image.utils.FileUtils.isForbiddenExtension;
 
@@ -54,7 +55,9 @@ public class ImageService {
                 throw new RuntimeException("Внешний сервер вернул ошибку: " + response.getStatusCode().value());
             }
 
-            image.setUrl(saveImageAndGetUrl(image, response));
+            boolean updateImageFlag = Arrays.equals(response.getBody(), objectStorageClient.getFile(image.getFileName()).readAllBytes());
+            if (!updateImageFlag) image.setUrl(saveImageAndGetUrl(image, response));
+
             imageRepository.save(image);
         } catch (Exception e) {
             log.error("Ошибка сохранения данных об изображении: {}", e.getMessage());
@@ -70,6 +73,7 @@ public class ImageService {
                 log.error("Ошибка обработки изображения: {}", e.getMessage());
                 throw new RuntimeException(e);
             }
+
         }
         return "";
     }
@@ -112,7 +116,7 @@ public class ImageService {
         }
     }
 
-    public void delele(Long id) {
+    public void delete(Long id) {
         try {
             var img = imageRepository.findById(id).orElseThrow(() -> new RuntimeException("Изображение " + id + " не найдено."));
 
@@ -121,6 +125,5 @@ public class ImageService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 }

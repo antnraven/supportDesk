@@ -57,7 +57,7 @@ public class ImageController {
     @DeleteMapping("/id{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            imageService.delele(id);
+            imageService.delete(id);
             return ResponseEntity.ok("Успешное удаление изображения " + id);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
