@@ -1,4 +1,4 @@
-package com.example.image.service;
+package com.example.image.service.impl;
 
 import io.minio.*;
 import io.minio.http.Method;

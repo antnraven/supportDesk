@@ -1,4 +1,4 @@
-package com.example.image.service;
+package com.example.image.service.impl;
 
 import com.example.grpc.generated.*;
 import com.example.image.mapper.ImageMapper;

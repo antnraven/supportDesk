@@ -22,6 +22,11 @@
           <package value="com.example.image" />
         </packages>
       </persistence-unit>
+      <persistence-unit moduleName="userService.main" name="Default">
+        <packages>
+          <package value="com.example.user" />
+        </packages>
+      </persistence-unit>
     </persistence-units>
   </component>
 </project>

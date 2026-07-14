@@ -1,6 +1,6 @@
 package com.example.user.controller;
 
-import com.example.user.service.UserService;
+import com.example.user.service.impl.UserServiceImpl;
 import com.example.user.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(@Autowired UserService userService) {
+    public UserController(@Autowired UserServiceImpl userService) {
         this.userService = userService;
     }
 

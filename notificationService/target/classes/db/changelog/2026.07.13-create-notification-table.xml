@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+
+    <changeSet id="1" author="MilovAV">
+        <createTable tableName="notifications">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="incidentId" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(150)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="dateCreated" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dateClosed" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="analystId" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="initiatorId" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="status" type="varchar(150)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="priority" type="varchar(150)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="responsibleService" type="varchar(150)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Индексы создаются отдельным тегом внутри того же changeSet -->
+        <createIndex indexName="idx_images_incidentId" tableName="images">
+            <column name="incidentId"/>
+        </createIndex>
+        <createIndex indexName="idx_images_analystId" tableName="images">
+            <column name="analystId"/>
+        </createIndex>
+        <createIndex indexName="idx_images_initiatorId" tableName="images">
+            <column name="initiatorId"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
