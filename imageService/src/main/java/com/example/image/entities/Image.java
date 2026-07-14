@@ -6,10 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Setter
 @Getter
+@ToString
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,16 +21,4 @@ public class Image {
     private String fileName;
     private Long size;
     private String mediaType;
-
-    @Override
-    public String toString() {
-        return "Image{" +
-                "id=" + id +
-                ", incidentId=" + incidentId +
-                ", url='" + url + '\'' +
-                ", fileName='" + fileName + '\'' +
-                ", size=" + size +
-                ", mediaType='" + mediaType + '\'' +
-                '}';
-    }
 }

@@ -43,16 +43,16 @@ public class IncidentService {
             incidentRepository.save(incident);
 
             IncidentDto incidentDto = IncidentDto.builder()
-                    .withId(incident.getId())
-                    .withName(incident.getName())
-                    .withDescription(incident.getDescription())
-                    .withDateCreate(incident.getDateCreate())
-                    .withDateClosed(incident.getDateClosed())
-                    .withAnalystId(incident.getAnalystId())
-                    .withInitiatorId(incident.getInitiatorId())
-                    .withStatus(incident.getStatus())
-                    .withPriority(incident.getPriority())
-                    .withResponsibleService(incident.getResponsibleService())
+                    .id(incident.getId())
+                    .name(incident.getName())
+                    .description(incident.getDescription())
+                    .dateCreate(incident.getDateCreate())
+                    .dateClosed(incident.getDateClosed())
+                    .analystId(incident.getAnalystId())
+                    .initiatorId(incident.getInitiatorId())
+                    .status(incident.getStatus())
+                    .priority(incident.getPriority())
+                    .responsibleService(incident.getResponsibleService())
                     .build();
 
             sender.send("incident-queue", incidentDto.getId(), incidentDto)
@@ -91,16 +91,16 @@ public class IncidentService {
     public IncidentDetail getIncidentDetail(Long id) {
         var incident = findById(id);
         return IncidentDetail.builder()
-                .withId(incident.getId())
-                .withDateClosed(incident.getDateClosed())
-                .withDateCreate(incident.getDateClosed())
-                .withDescription(incident.getDescription())
-                .withName(incident.getName())
-                .withPriority(incident.getPriority())
-                .withResponsibleService(incident.getResponsibleService())
-                .withImageList(getImageList(id))
-                .withAnalyst(getAnalystById(incident.getAnalystId()))
-                .withInitiator(getInitiatorById(incident.getInitiatorId()))
+                .id(incident.getId())
+                .dateClosed(incident.getDateClosed())
+                .dateCreate(incident.getDateClosed())
+                .description(incident.getDescription())
+                .name(incident.getName())
+                .priority(incident.getPriority())
+                .responsibleService(incident.getResponsibleService())
+                .imageList(getImageList(id))
+                .analyst(getAnalystById(incident.getAnalystId()))
+                .initiator(getInitiatorById(incident.getInitiatorId()))
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package com.example.user.mapper;
 
+import com.example.user.dto.UserDto;
 import com.example.user.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,6 +18,7 @@ public interface UserMapper {
     @Mapping(target = "email", source = "email")
     @Mapping(target = "workplace", source = "workplace")
     com.example.grpc.generated.User toProto(User user);
+    User toSelf(UserDto userDto);
 
     java.util.List<com.example.grpc.generated.User> toProtoList(java.util.List<User> users);
 }

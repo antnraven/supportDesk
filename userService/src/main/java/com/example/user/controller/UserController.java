@@ -1,5 +1,7 @@
 package com.example.user.controller;
 
+import com.example.user.dto.UserDto;
+import com.example.user.mapper.UserMapper;
 import com.example.user.service.impl.UserServiceImpl;
 import com.example.user.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
     private final UserServiceImpl userService;
+    private final UserMapper userMapper;
 
-    public UserController(@Autowired UserServiceImpl userService) {
+    public UserController(@Autowired UserServiceImpl userService, @Autowired UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @PostMapping
-    public ResponseEntity<?> addIncident(@RequestBody User user) {
+    public ResponseEntity<?> addIncident(@RequestBody UserDto user) {
         try {
-            userService.save(user);
+            userService.save(userMapper.toSelf(user));
             return ResponseEntity.ok("Успешное сохранение инцидента");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -45,9 +49,9 @@ public class UserController {
 
 
     @PatchMapping
-    public ResponseEntity<?> updateIncident(@RequestBody User user) {
+    public ResponseEntity<?> updateIncident(@RequestBody UserDto user) {
         try {
-            userService.updateIncident(user);
+            userService.updateIncident(userMapper.toSelf(user));
             return ResponseEntity.ok("Успешное обновление инцидента");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

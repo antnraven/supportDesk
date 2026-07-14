@@ -1,10 +1,16 @@
 package com.example.notification.service.impl;
 
+import com.example.grpc.generated.GetUserByAnalystIdRequest;
+import com.example.grpc.generated.GetUserResponse;
+import com.example.grpc.generated.GetUsersResponse;
+import com.example.grpc.generated.UserImageServiceGrpc;
 import com.example.notification.dto.IncidentDto;
 import com.example.notification.service.EmailService;
+import com.google.protobuf.Empty;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
@@ -16,9 +22,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender emailSender;
+    private final UserImageServiceGrpc.UserImageServiceBlockingStub blockingStub;
 
-    public EmailServiceImpl(@Autowired JavaMailSender javaMailSender) {
+    public EmailServiceImpl(@Autowired JavaMailSender javaMailSender, @GrpcClient("user-image-service") UserImageServiceGrpc.UserImageServiceBlockingStub blockingStub) {
         this.emailSender = javaMailSender;
+        this.blockingStub = blockingStub;
     }
 
     @Override
@@ -49,6 +57,10 @@ public class EmailServiceImpl implements EmailService {
     @KafkaListener(topics = "incident-queue", groupId = "incident-service")
     public void handleOrderPlaced(IncidentDto incidentDto) {
         log.info("Получено событие о новом заказе от пользователя {}: {}", incidentDto.getId(), incidentDto);
-        // Логика отправки уведомления на почту или в SMS
+        // Логика отправки уведомления админам
+    }
+
+    private GetUserResponse getUsers() {
+        return blockingStub.getAllUsers(Empty.newBuilder().build());
     }
 }

@@ -10,7 +10,7 @@ import lombok.ToString;
 
 import java.time.OffsetDateTime;
 
-@Builder(setterPrefix = "with", access = AccessLevel.PUBLIC)
+@Builder
 @Getter
 @ToString
 public class IncidentDto {

@@ -1,12 +1,14 @@
-package com.example.incident.dto;
+package com.example.user.dto;
 
-import com.example.incident.enums.UserRole;
-import lombok.*;
+import com.example.user.enums.UserRole;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 @Builder
 @Getter
 @ToString
-public class User {
+public class UserDto {
     private final Long id;
     private final UserRole role;
     private final String userFullname;

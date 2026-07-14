@@ -11,7 +11,7 @@ import lombok.ToString;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@Builder(setterPrefix = "with", access = AccessLevel.PUBLIC)
+@Builder
 @Getter
 @ToString
 public class IncidentDetail {

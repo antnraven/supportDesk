@@ -1,24 +1,27 @@
 package com.example.incident.controller;
 
+import com.example.incident.dto.IncidentDto;
+import com.example.incident.mapper.IncidentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.incident.entities.Incident;
 import com.example.incident.service.IncidentService;
 
 @RestController
 @RequestMapping("/incident")
 public class IncidentController {
     private final IncidentService incidentService;
+    private final IncidentMapper incidentMapper;
 
-    public IncidentController(@Autowired IncidentService incidentService) {
+    public IncidentController(@Autowired IncidentService incidentService, @Autowired IncidentMapper incidentMapper) {
         this.incidentService = incidentService;
+        this.incidentMapper = incidentMapper;
     }
 
     @PostMapping
-    public ResponseEntity<?> addIncident(@RequestBody Incident incident) {
+    public ResponseEntity<?> addIncident(@RequestBody IncidentDto incident) {
         try {
-            incidentService.save(incident);
+            incidentService.save(incidentMapper.toSelf(incident));
             return ResponseEntity.ok("Успешное сохранение инцидента");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -42,6 +45,7 @@ public class IncidentController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @GetMapping("/detail{id}")
     public ResponseEntity<?> findDetailById(@PathVariable Long id) {
         try {
@@ -53,9 +57,9 @@ public class IncidentController {
 
 
     @PatchMapping
-    public ResponseEntity<?> updateIncident(@RequestBody Incident incident) {
+    public ResponseEntity<?> updateIncident(@RequestBody IncidentDto incident) {
         try {
-            incidentService.updateIncident(incident);
+            incidentService.updateIncident(incidentMapper.toSelf(incident));
             return ResponseEntity.ok("Успешное обновление инцидента");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

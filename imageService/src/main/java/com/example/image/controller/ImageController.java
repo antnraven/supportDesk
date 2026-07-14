@@ -1,6 +1,7 @@
 package com.example.image.controller;
 
-import com.example.image.entities.Image;
+import com.example.image.dto.ImageDto;
+import com.example.image.mapper.ImageMapper;
 import com.example.image.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +11,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/image")
 public class ImageController {
     private final ImageService imageService;
+    private final ImageMapper imageMapper;
 
-    public ImageController(@Autowired ImageService imageService) {
+    public ImageController(@Autowired ImageService imageService, @Autowired ImageMapper imageMapper) {
         this.imageService = imageService;
+        this.imageMapper = imageMapper;
     }
 
     @PostMapping
-    public ResponseEntity<?> addIncident(@RequestBody Image image) {
+    public ResponseEntity<?> addIncident(@RequestBody ImageDto image) {
         try {
-            imageService.save(image);
+            imageService.save(imageMapper.toSelf(image));
             return ResponseEntity.ok("Успешное сохранение инцидента");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -53,9 +56,9 @@ public class ImageController {
     }
 
     @PatchMapping
-    public ResponseEntity<?> updateIncident(@RequestParam Long id, @RequestBody Image image) {
+    public ResponseEntity<?> updateIncident(@RequestParam Long id, @RequestBody ImageDto image) {
         try {
-            imageService.updateImage(id, image);
+            imageService.updateImage(id, imageMapper.toSelf(image));
             return ResponseEntity.ok("Успешное обновление инцидента");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -1,7 +1,8 @@
 package com.example.image.service;
 
-import com.example.image.entities.Image;
+import com.example.image.dto.ImageDto;
 
+import com.example.image.entities.Image;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

@@ -9,12 +9,14 @@ import lombok.Setter;
 import com.example.incident.enums.IncidentStatus;
 import com.example.incident.enums.Priority;
 import com.example.incident.enums.ResponsibleService;
+import lombok.ToString;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Getter
 @Setter
+@ToString
 public class Incident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,20 +30,4 @@ public class Incident {
     private IncidentStatus status;
     private Priority priority;
     private ResponsibleService responsibleService;
-
-    @Override
-    public String toString() {
-        return "IncidentDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", dateCreate=" + dateCreate +
-                ", dateClosed=" + dateClosed +
-                ", analystId=" + analystId +
-                ", initiatorId=" + initiatorId +
-                ", status=" + status +
-                ", priority=" + priority +
-                ", responsibleService=" + responsibleService +
-                '}';
-    }
 }

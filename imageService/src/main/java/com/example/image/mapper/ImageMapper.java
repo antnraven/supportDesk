@@ -1,5 +1,6 @@
 package com.example.image.mapper;
 
+import com.example.image.dto.ImageDto;
 import com.example.image.entities.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,6 +17,8 @@ public interface ImageMapper {
     @Mapping(target = "size", source = "size")
     @Mapping(target = "mediaType", source = "mediaType")
     com.example.grpc.generated.Image toProto(Image internalImage);
+
+    Image toSelf(ImageDto image);
 
     java.util.List<com.example.grpc.generated.Image> toProtoList(java.util.List<Image> internalImages);
 }
