@@ -42,6 +42,14 @@ public class IncidentController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @GetMapping("/detail{id}")
+    public ResponseEntity<?> findDetailById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(incidentService.getIncidentDetail(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 
     @PatchMapping

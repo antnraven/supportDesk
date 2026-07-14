@@ -19,9 +19,4 @@ public interface UserMapper {
     com.example.grpc.generated.User toProto(User user);
 
     java.util.List<com.example.grpc.generated.User> toProtoList(java.util.List<User> users);
-
-//    @Mapping(target = "id", expression = "java(user.getId() != null ? user.getId() : 0L)")
-//    default com.example.grpc.generated.User safeToProto(User user) {
-//        return toProto(user);
-//    }
 }
