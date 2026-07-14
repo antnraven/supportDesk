@@ -5,6 +5,8 @@ import com.example.grpc.generated.GetUserResponse;
 import com.example.grpc.generated.GetUsersResponse;
 import com.example.grpc.generated.UserImageServiceGrpc;
 import com.example.notification.dto.IncidentDto;
+import com.example.notification.enums.UserRole;
+import com.example.notification.mapper.UserMapper;
 import com.example.notification.service.EmailService;
 import com.google.protobuf.Empty;
 import jakarta.mail.MessagingException;
@@ -23,10 +25,12 @@ import org.springframework.stereotype.Service;
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender emailSender;
     private final UserImageServiceGrpc.UserImageServiceBlockingStub blockingStub;
+    private final UserMapper userMapper;
 
-    public EmailServiceImpl(@Autowired JavaMailSender javaMailSender, @GrpcClient("user-image-service") UserImageServiceGrpc.UserImageServiceBlockingStub blockingStub) {
+    public EmailServiceImpl(@Autowired JavaMailSender javaMailSender, @GrpcClient("user-image-service") UserImageServiceGrpc.UserImageServiceBlockingStub blockingStub, @Autowired UserMapper userMapper) {
         this.emailSender = javaMailSender;
         this.blockingStub = blockingStub;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -57,10 +61,14 @@ public class EmailServiceImpl implements EmailService {
     @KafkaListener(topics = "incident-queue", groupId = "incident-service")
     public void handleOrderPlaced(IncidentDto incidentDto) {
         log.info("Получено событие о новом заказе от пользователя {}: {}", incidentDto.getId(), incidentDto);
-        // Логика отправки уведомления админам
+        var users = userMapper.fromProtoList(getUsers().getUserList());
+
+        for (var user : users.stream().filter(t -> t.getRole() == UserRole.ADMIN).toList()) {
+            sendSimpleEmail(user.getEmail(), Long.toString(incidentDto.getId()) + incidentDto.getDateCreate() + incidentDto.getDescription(), incidentDto.toString());
+        }
     }
 
-    private GetUserResponse getUsers() {
+    private GetUsersResponse getUsers() {
         return blockingStub.getAllUsers(Empty.newBuilder().build());
     }
 }

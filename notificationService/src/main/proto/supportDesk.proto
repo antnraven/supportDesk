@@ -62,5 +62,5 @@ service UserImageService {
   rpc getImagesById (GetImagesByIdRequest) returns (GetImagesResponse);
   rpc getUserByAnalystId (GetUserByAnalystIdRequest) returns (GetUserResponse);
   rpc getUserByInitiatorId (GetUserByInitiatorIdRequest) returns (GetUserResponse);
-  rpc getAllUsers (google.protobuf.Empty) returns (GetUserResponse);
+  rpc getAllUsers (google.protobuf.Empty) returns (GetUsersResponse);
 }
