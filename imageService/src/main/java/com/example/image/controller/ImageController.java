@@ -5,6 +5,7 @@ import com.example.image.mapper.ImageMapper;
 import com.example.image.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class ImageController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST', 'INITIATOR')")
     public ResponseEntity<?> addIncident(@RequestBody ImageDto image) {
         try {
             imageService.save(imageMapper.toSelf(image));
@@ -29,6 +31,7 @@ public class ImageController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> findAll() {
         try {
             return ResponseEntity.ok(imageService.findAll());
@@ -38,6 +41,7 @@ public class ImageController {
     }
 
     @GetMapping("/id{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(imageService.findById(id));
@@ -47,6 +51,7 @@ public class ImageController {
     }
 
     @GetMapping("/initiatorId{initiatorId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> findByInitiatorId(@PathVariable Long initiatorId) {
         try {
             return ResponseEntity.ok(imageService.findAllByInitiatorId(initiatorId));
@@ -56,6 +61,7 @@ public class ImageController {
     }
 
     @PatchMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST', 'INITIATOR')")
     public ResponseEntity<?> updateIncident(@RequestParam Long id, @RequestBody ImageDto image) {
         try {
             imageService.updateImage(id, imageMapper.toSelf(image));
@@ -66,6 +72,7 @@ public class ImageController {
     }
 
     @DeleteMapping("/id{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             imageService.delete(id);

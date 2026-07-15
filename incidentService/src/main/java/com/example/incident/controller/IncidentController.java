@@ -19,6 +19,7 @@ public class IncidentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST', 'INITIATOR')")
     public ResponseEntity<?> addIncident(@RequestBody IncidentDto incident) {
         try {
             incidentService.save(incidentMapper.toSelf(incident));
@@ -29,6 +30,7 @@ public class IncidentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> findAll() {
         try {
             return ResponseEntity.ok(incidentService.findAll());
@@ -38,6 +40,7 @@ public class IncidentController {
     }
 
     @GetMapping("/id{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(incidentService.findById(id));
@@ -47,6 +50,7 @@ public class IncidentController {
     }
 
     @GetMapping("/detail{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> findDetailById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(incidentService.getIncidentDetail(id));
@@ -57,6 +61,7 @@ public class IncidentController {
 
 
     @PatchMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST', 'INITIATOR')")
     public ResponseEntity<?> updateIncident(@RequestBody IncidentDto incident) {
         try {
             incidentService.updateIncident(incidentMapper.toSelf(incident));

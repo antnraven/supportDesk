@@ -20,6 +20,7 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> addIncident(@RequestBody UserDto user) {
         try {
             userService.save(userMapper.toSelf(user));
@@ -30,6 +31,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> findAll() {
         try {
             return ResponseEntity.ok(userService.findAll());
@@ -39,6 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/id{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.findById(id));
@@ -49,6 +52,7 @@ public class UserController {
 
 
     @PatchMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
     public ResponseEntity<?> updateIncident(@RequestBody UserDto user) {
         try {
             userService.updateIncident(userMapper.toSelf(user));

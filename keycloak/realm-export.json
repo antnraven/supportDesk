@@ -1,0 +1,70 @@
+{
+  "realm": "support-desk",
+  "enabled": true,
+  "displayName": "Support Desk",
+  "sslRequired": "none",
+  "roles": {
+    "realm": [
+      {
+        "name": "ADMIN",
+        "description": "Administrator role — full access"
+      },
+      {
+        "name": "ANALYST",
+        "description": "Analyst role — full access"
+      },
+      {
+        "name": "INITIATOR",
+        "description": "Initiator role — create and edit incidents only"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "support-desk-services",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "change-me",
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin"
+        }
+      ],
+      "realmRoles": ["ADMIN"]
+    },
+    {
+      "username": "analyst",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "analyst"
+        }
+      ],
+      "realmRoles": ["ANALYST"]
+    },
+    {
+      "username": "initiator",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "initiator"
+        }
+      ],
+      "realmRoles": ["INITIATOR"]
+    }
+  ]
+}

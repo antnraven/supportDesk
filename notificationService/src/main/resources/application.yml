@@ -1,3 +1,6 @@
+server:
+  port: ${SERVER_PORT:8083}
+
 spring:
   datasource:
     url: ${DATASOURCE_URL}
@@ -15,4 +18,34 @@ spring:
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
-    enabled: trues
+    enabled: true
+
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: com.example.notification.dto.IncidentDto
+      group-id: incident-service
+      auto-offset-reset: earliest
+
+grpc:
+  client:
+    user-image-service:
+      address: static://${GRPC_TARGET_HOST:localhost}:${GRPC_TARGET_PORT:9090}
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
